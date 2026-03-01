@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>About Me - Student Blog</title>
+  <meta name="description" content="About the author of the Student Blog.">
+  <style>
+    :root{
+      --bg:#f0f4f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#6366f1;
+      --accent-secondary:#ec4899;
+      --accent-tertiary:#10b981;
+      --text:#1f2937;
+      --max-width:900px;
+      --shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -2px rgba(0,0,0,0.1);
+      --shadow-lg:0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.1);
+      font-family: 'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      color:var(--text);
+    }
+    
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    
+    /* Animated background gradient */
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background: 
+        radial-gradient(ellipse at 20% 20%,rgba(99,102,241,0.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 80% 80%,rgba(236,72,153,0.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 50% 50%,rgba(16,185,129,0.05) 0%,transparent 50%);
+      pointer-events:none;
+      z-index:-1;
+      animation:bgPulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes bgPulse{
+      0%,100%{opacity:1}
+      50%{opacity:0.7}
+    }
+    
+    .wrap{max-width:var(--max-width);margin:0 auto;padding:24px}
+
+    /* Header with glassmorphism */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:28px;
+      padding:16px 24px;
+      background:rgba(255,255,255,0.8);
+      backdrop-filter:blur(12px);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      position:sticky;
+      top:16px;
+      z-index:100;
+      animation:slideDown 0.6s ease-out;
+    }
+    
+    @keyframes slideDown{
+      from{transform:translateY(-100%);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    
+    .brand{display:flex;align-items:center;gap:14px}
+    
+    /* Animated logo */
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      font-size:20px;
+      position:relative;
+      overflow:hidden;
+      transition:transform 0.3s ease,box-shadow 0.3s ease;
+    }
+    
+    .logo::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent-secondary),var(--accent-tertiary));
+      opacity:0;
+      transition:opacity 0.4s ease;
+    }
+    
+    .logo:hover{transform:rotate(5deg) scale(1.05);box-shadow:0 8px 25px rgba(99,102,241,0.4)}
+    .logo:hover::before{opacity:1}
+    .logo span{position:relative;z-index:1}
+    
+    h1{font-size:24px;margin:0;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    
+    nav{display:flex;gap:8px}
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      font-weight:500;
+      padding:10px 16px;
+      border-radius:10px;
+      transition:all 0.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    nav a::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      opacity:0;
+      transition:opacity 0.3s ease;
+      border-radius:10px;
+    }
+    
+    nav a:hover{color:#fff;transform:translateY(-2px)}
+    nav a:hover::before{opacity:1}
+    nav a span{position:relative;z-index:1}
+
+    /* Cards with hover lift effect */
+    .card{
+      background:var(--card);
+      border-radius:20px;
+      padding:36px;
+      box-shadow:var(--shadow);
+      transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+      position:relative;
+      overflow:hidden;
+      animation:fadeInUp 0.6s ease-out;
+    }
+    
+    .card::before{
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      transform:scaleX(0);
+      transition:transform 0.4s ease;
+    }
+    
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .card:hover::before{transform:scaleX(1)}
+
+    @keyframes fadeInUp{
+      from{transform:translateY(20px);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+
+    /* Profile image with animated border */
+    .profile-image-card{
+      position:relative;
+      width:220px;
+      height:220px;
+      margin:0 auto 32px;
+    }
+    
+    .profile-image-card::before{
+      content:'';
+      position:absolute;
+      inset:-6px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary),var(--accent-tertiary),var(--accent));
+      background-size:300% 300%;
+      animation:gradientRotate 4s linear infinite;
+      z-index:-1;
+    }
+    
+    @keyframes gradientRotate{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    
+    .circle-image{
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      object-fit:cover;
+      display:block;
+      border:4px solid #fff;
+      box-shadow:var(--shadow-lg);
+      transition:transform 0.4s ease;
+    }
+    
+    .circle-image:hover{transform:scale(1.03)}
+
+    /* Content styling */
+    .card h2{
+      font-size:32px;
+      margin:0 0 24px 0;
+      text-align:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+    }
+    
+    .card h2::after{
+      content:'👋';
+      font-size:28px;
+      animation:wave 2s ease-in-out infinite;
+      -webkit-text-fill-color:initial;
+    }
+    
+    @keyframes wave{
+      0%,100%{transform:rotate(0deg)}
+      25%{transform:rotate(20deg)}
+      75%{transform:rotate(-10deg)}
+    }
+    
+    p{
+      line-height:1.9;
+      color:#374151;
+      font-size:16px;
+      margin-bottom:20px;
+    }
+    
+    p:last-child{margin-bottom:0}
+
+    /* Fun badges */
+    .badges{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:28px;
+      padding-top:24px;
+      border-top:1px solid #e5e7eb;
+    }
+    
+    .badge{
+      padding:10px 20px;
+      border-radius:25px;
+      font-size:14px;
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      transition:all 0.3s ease;
+    }
+    
+    .badge:hover{transform:translateY(-3px) scale(1.05)}
+    
+    .badge-cs{
+      background:linear-gradient(135deg,#e0e7ff,#c7d2fe);
+      color:var(--accent);
+    }
+    
+    .badge-writer{
+      background:linear-gradient(135deg,#fce7f3,#fbcfe8);
+      color:var(--accent-secondary);
+    }
+    
+    .badge-student{
+      background:linear-gradient(135deg,#d1fae5,#a7f3d0);
+      color:var(--accent-tertiary);
+    }
+
+    /* Reading progress indicator */
+    .progress-bar{
+      position:fixed;
+      top:0;left:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      z-index:1000;
+      transition:width 0.1s ease;
+    }
+
+    /* Mobile menu toggle */
+    .menu-toggle{
+      display:none;
+      background:none;
+      border:none;
+      font-size:24px;
+      cursor:pointer;
+      padding:8px;
+      border-radius:8px;
+      transition:background 0.3s ease;
+    }
+    .menu-toggle:hover{background:rgba(99,102,241,0.1)}
+
+    /* Floating emoji decorations */
+    .card::after{
+      content:'✨';
+      position:absolute;
+      top:20px;
+      right:24px;
+      font-size:28px;
+      animation:float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float{
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-10px) rotate(10deg)}
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin-top:40px;
+      padding:24px;
+      animation:fadeIn 1s ease-out 0.5s both;
+    }
+    
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+
+    @media (max-width:600px){
+      nav{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;padding:16px;border-radius:0 0 16px 16px;box-shadow:var(--shadow);flex-direction:column}
+      nav.active{display:flex}
+      .menu-toggle{display:block}
+      header{flex-wrap:wrap}
+      .card{padding:24px}
+      .card h2{font-size:24px}
+      .profile-image-card{width:160px;height:160px}
+      .circle-image{width:160px;height:160px}
+      .card::after{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>SB</span></div>
+        <h1>About Me</h1>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <nav id="mainNav">
+        <a href="index.html"><span>Home</span></a>
+        <a href="contact.html"><span>Contact</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="card">
+        <div class="profile-image-card">
+          <img src="myimage.jpg" alt="Canaan Davis" class="circle-image">
+        </div>
+        <h2>Hello, I'm Canaan Davis</h2>
+        <p>I'm a Computer Science student who enjoys learning new things and sharing simple notes that help others study better. This blog is my space to write about school work, personal growth, and tips that make learning easier.</p>
+        <p>I focus on keeping explanations short and clear. When I study, I break topics into smaller parts and use examples to remember them. Here, I post summaries and notes you can use as a quick guide for your courses.</p>
+        <p>Outside school, I enjoy tech, writing, and helping others understand difficult subjects. My goal is to create practical study content that fits into a student's daily routine.</p>
+        
+        <div class="badges">
+          <span class="badge badge-cs">💻 CS Student</span>
+          <span class="badge badge-writer">✍️ Writer</span>
+          <span class="badge badge-student">🎓 Lifelong Learner</span>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div>© 2025 Student Blog. Written with 💜 by Canaan Davis.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('active');
+    }
+    
+    // Reading progress bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+  </script>
+</body>
+</html>
