@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your Student Blog</title>
+  <meta name="description" content="Personal student blog with notes, study tips, and short essays.">
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K3X3QNS2HH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K3X3QNS2HH');
+</script>
+
+  <style>
+    :root{
+      --bg:#f0f4f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#6366f1;
+      --accent-secondary:#ec4899;
+      --accent-tertiary:#10b981;
+      --text:#1f2937;
+      --max-width:1100px;
+      --gap:24px;
+      --shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -2px rgba(0,0,0,0.1);
+      --shadow-lg:0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.1);
+      font-family: 'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      color:var(--text);
+    }
+    
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    
+    /* Animated background gradient */
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background: 
+        radial-gradient(ellipse at 20% 20%,rgba(99,102,241,0.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 80% 80%,rgba(236,72,153,0.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 50% 50%,rgba(16,185,129,0.05) 0%,transparent 50%);
+      pointer-events:none;
+      z-index:-1;
+      animation:bgPulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes bgPulse{
+      0%,100%{opacity:1}
+      50%{opacity:0.7}
+    }
+    
+    .wrap{max-width:var(--max-width);margin:0 auto;padding:24px}
+
+    /* Header with glassmorphism */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:28px;
+      padding:16px 24px;
+      background:rgba(255,255,255,0.8);
+      backdrop-filter:blur(12px);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      position:sticky;
+      top:16px;
+      z-index:100;
+      animation:slideDown 0.6s ease-out;
+    }
+    
+    @keyframes slideDown{
+      from{transform:translateY(-100%);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    
+    .brand{display:flex;align-items:center;gap:14px}
+    
+    /* Animated logo */
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      font-size:20px;
+      position:relative;
+      overflow:hidden;
+      transition:transform 0.3s ease,box-shadow 0.3s ease;
+    }
+    
+    .logo::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent-secondary),var(--accent-tertiary));
+      opacity:0;
+      transition:opacity 0.4s ease;
+    }
+    
+    .logo:hover{transform:rotate(5deg) scale(1.05);box-shadow:0 8px 25px rgba(99,102,241,0.4)}
+    .logo:hover::before{opacity:1}
+    .logo span{position:relative;z-index:1}
+    
+    h1{font-size:22px;margin:0;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    
+    nav{display:flex;gap:8px}
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      font-weight:500;
+      padding:10px 16px;
+      border-radius:10px;
+      transition:all 0.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    nav a::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      opacity:0;
+      transition:opacity 0.3s ease;
+      border-radius:10px;
+    }
+    
+    nav a:hover{color:#fff;transform:translateY(-2px)}
+    nav a:hover::before{opacity:1}
+    nav a span{position:relative;z-index:1}
+
+    .layout{display:grid;grid-template-columns:1fr 340px;gap:var(--gap)}
+
+    /* Cards with hover lift effect */
+    .card{
+      background:var(--card);
+      border-radius:20px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .card::before{
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      transform:scaleX(0);
+      transition:transform 0.4s ease;
+    }
+    
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .card:hover::before{transform:scaleX(1)}
+
+    /* Hero section with floating elements */
+    .hero{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      padding:36px;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .hero::after{
+      content:'✨';
+      position:absolute;
+      top:20px;
+      right:30px;
+      font-size:40px;
+      animation:float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float{
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-10px) rotate(10deg)}
+    }
+    
+    .hero h2{font-size:32px;margin:0;background:linear-gradient(135deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeInUp 0.6s ease-out}
+    .hero p{margin:0;color:var(--muted);font-size:16px;line-height:1.7;animation:fadeInUp 0.6s ease-out 0.1s both}
+    
+    @keyframes fadeInUp{
+      from{transform:translateY(20px);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    
+    .posts{display:flex;flex-direction:column;gap:14px}
+
+    /* Post cards with stagger animation */
+    .post{
+      display:block;
+      padding:18px 20px;
+      border-radius:14px;
+      border:2px solid transparent;
+      text-decoration:none;
+      color:inherit;
+      background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--accent),var(--accent-secondary)) border-box;
+      transition:all 0.3s ease;
+      position:relative;
+      opacity:0;
+      animation:slideIn 0.5s ease-out forwards;
+    }
+    
+    .post:nth-child(1){animation-delay:0.1s}
+    .post:nth-child(2){animation-delay:0.2s}
+    .post:nth-child(3){animation-delay:0.3s}
+    
+    @keyframes slideIn{
+      from{transform:translateX(-20px);opacity:0}
+      to{transform:translateX(0);opacity:1}
+    }
+    
+    .post:hover{transform:translateX(8px);border-color:var(--accent);box-shadow:0 4px 20px rgba(99,102,241,0.15)}
+    .post h2{margin:0;font-size:18px;font-weight:600;transition:color 0.3s ease}
+    .post:hover h2{color:var(--accent)}
+    .meta{font-size:13px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:8px}
+    .meta::before{content:'📅';font-size:12px}
+
+    /* Enhanced sidebar */
+    .aside .about{display:flex;flex-direction:column;gap:14px}
+    
+    .avatar{
+      width:72px;
+      height:72px;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      font-size:24px;
+      position:relative;
+      overflow:hidden;
+      transition:transform 0.3s ease;
+    }
+    
+    .avatar::after{
+      content:'';
+      position:absolute;
+      inset:-50%;
+      background:linear-gradient(45deg,transparent,rgba(255,255,255,0.3),transparent);
+      transform:rotate(45deg) translateY(-100%);
+      transition:transform 0.6s ease;
+    }
+    
+    .avatar:hover{transform:scale(1.05) rotate(-3deg)}
+    .avatar:hover::after{transform:rotate(45deg) translateY(100%)}
+    
+    .small{font-size:14px;color:var(--muted);line-height:1.6}
+    
+    /* Quick links with icons */
+    .quick-links{list-style:none;margin:0;padding:0}
+    .quick-links li{margin-bottom:10px}
+    .quick-links a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--text);
+      font-size:14px;
+      font-weight:500;
+      transition:all 0.3s ease;
+      background:#f8fafc;
+    }
+    .quick-links a::before{content:'→';color:var(--accent);font-weight:bold;transition:transform 0.3s ease}
+    .quick-links a:hover{background:linear-gradient(135deg,var(--accent),var(--accent-secondary));color:#fff;transform:translateX(4px)}
+    .quick-links a:hover::before{color:#fff;transform:translateX(4px)}
+    
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin-top:40px;
+      padding:24px;
+      animation:fadeIn 1s ease-out 0.5s both;
+    }
+    
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+
+    /* Single post content */
+    .post-content h3{
+      margin-top:24px;
+      color:var(--accent);
+      font-size:18px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .post-content h3::before{content:'▸';color:var(--accent-secondary)}
+    .post-content p{line-height:1.8;color:#374151;font-size:15px}
+    
+    /* Enhanced button */
+    .learn-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:16px;
+      padding:12px 24px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      color:#fff;
+      border:none;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+      transition:all 0.3s ease;
+      box-shadow:0 4px 15px rgba(99,102,241,0.3);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .learn-btn::before{
+      content:'→';
+      transition:transform 0.3s ease;
+    }
+    
+    .learn-btn::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent-secondary),var(--accent-tertiary));
+      opacity:0;
+      transition:opacity 0.3s ease;
+    }
+    
+    .learn-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(99,102,241,0.4)}
+    .learn-btn:hover::before{transform:translateX(4px)}
+    .learn-btn:hover::after{opacity:1}
+    .learn-btn span{position:relative;z-index:1}
+    
+    .learn-btn:active{transform:translateY(-1px)}
+
+    /* Tags */
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .tag{
+      padding:6px 14px;
+      border-radius:20px;
+      background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(236,72,153,0.1));
+      color:var(--accent);
+      font-size:12px;
+      font-weight:600;
+      transition:all 0.3s ease;
+    }
+    .tag:hover{background:linear-gradient(135deg,var(--accent),var(--accent-secondary));color:#fff;transform:scale(1.05)}
+
+    /* Reading progress indicator */
+    .progress-bar{
+      position:fixed;
+      top:0;left:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      z-index:1000;
+      transition:width 0.1s ease;
+    }
+
+    /* Mobile menu toggle */
+    .menu-toggle{
+      display:none;
+      background:none;
+      border:none;
+      font-size:24px;
+      cursor:pointer;
+      padding:8px;
+      border-radius:8px;
+      transition:background 0.3s ease;
+    }
+    .menu-toggle:hover{background:rgba(99,102,241,0.1)}
+
+    @media (max-width:900px){
+      .layout{grid-template-columns:1fr}
+      nav{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;padding:16px;border-radius:0 0 16px 16px;box-shadow:var(--shadow);flex-direction:column}
+      nav.active{display:flex}
+      .menu-toggle{display:block}
+      header{flex-wrap:wrap}
+      .hero h2{font-size:24px}
+      .hero::after{display:none}
+    }
+    
+    /* Scroll reveal animation */
+    .reveal{opacity:0;transform:translateY(30px);transition:all 0.6s ease}
+    .reveal.active{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>SB</span></div>
+        <div>
+          <h1>Your Student Blog</h1>
+          <div class="small">Notes, tips, and short essays for your studies</div>
+        </div>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <nav id="mainNav">
+        <a href=""><span>Home</span></a>
+        <a href="about.html"><span>About Me</span></a>
+        <a href="contact.html"><span>Contact</span></a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section>
+        <div class="card hero reveal" id="home">
+          <h2>Welcome to Your Learning Hub! 🚀</h2>
+          <p>Short, clear notes you can use for study. Each post is focused and practical. Edit any section to match your courses. Start exploring and level up your knowledge!</p>
+          <div class="tags">
+            <span class="tag">📚 Study Tips</span>
+            <span class="tag">💻 Programming</span>
+            <span class="tag">📝 English</span>
+          </div>
+          <div style="margin-top:16px">
+            <a class="learn-btn" href="#posts"><span>See latest posts</span></a>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:20px" id="posts">
+          <h3 style="margin-top:0;display:flex;align-items:center;gap:10px">
+            <span style="font-size:24px">📝</span>
+            Latest posts
+          </h3>
+          <div class="posts">
+            <a class="post" href="#post-1">
+              <h2>Study Tips for First Semester</h2>
+              <div class="meta">Sep 10, 2025 • 6 min read • 🎯 Productivity</div>
+            </a>
+
+            <a class="post" href="#post-2">
+              <h2>Use of English: Key Topics</h2>
+              <div class="meta">Sep 2, 2025 • 8 min read • 📖 Language</div>
+            </a>
+
+            <a class="post" href="#post-3">
+              <h2>Intro to Programming: Quick Start</h2>
+              <div class="meta">Aug 28, 2025 • 10 min read • 💻 Coding</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Single post content -->
+        <div class="card reveal" style="margin-top:20px" id="post-1">
+          <div class="post-content">
+            <h2 style="margin-top:0;display:flex;align-items:center;gap:12px">
+              <span style="font-size:32px">🎯</span>
+              Study Tips for First Semester
+            </h2>
+            <div class="meta" style="margin-bottom:16px">Sep 10, 2025</div>
+            <p>Plan a weekly schedule. Set two main goals each day. Use short focused study blocks of 25 minutes. Take a 5 minute break after each block. Review notes weekly.</p>
+
+            <h3>How to take notes</h3>
+            <p>Write a short heading. Note three main points. Add one example. Keep each entry under 100 words.</p>
+
+            <h3>Example</h3>
+            <p>Topic: Active and passive voice. Active uses the subject performing the action. Passive uses the subject receiving the action. Example: "She writes notes." vs "Notes are written by her."</p>
+            
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:20px" id="post-2">
+          <div class="post-content">
+            <h2 style="margin-top:0;display:flex;align-items:center;gap:12px">
+              <span style="font-size:32px">📖</span>
+              Use of English: Key Topics
+            </h2>
+            <div class="meta" style="margin-bottom:16px">Sep 2, 2025</div>
+            <p>Focus on grammar basics. Study sentence structure and punctuation. Practice with short tests. Read one article each week and summarize it in three sentences.</p> 
+            <a class="learn-btn" href="file:///C:/Users/user/Documents/blog2.0/post-2.html"><span>Learn more</span></a>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:20px" id="post-3">
+          <div class="post-content">
+            <h2 style="margin-top:0;display:flex;align-items:center;gap:12px">
+              <span style="font-size:32px">💻</span>
+              Intro to Programming: Quick Start
+            </h2>
+            <div class="meta" style="margin-bottom:16px">Aug 28, 2025</div>
+            <p>Install Python. Write a short script to print a message. Save files with clear names. Practice small problems daily.</p>
+            <a class="learn-btn" href="file:///C:/Users/user/Documents/blog2.0/post-3.html"><span>Learn more</span></a>
+          </div>
+        </div>
+
+      </section>
+
+      <aside class="aside">
+        <div class="card reveal" id="about">
+          <div class="about">
+            <div style="display:flex;gap:16px;align-items:center">
+              <div class="avatar">CD</div>
+              <div>
+                <div style="font-weight:700;font-size:18px">Canaan Davis</div>
+                <div class="small">Student, Computer Science 💻</div>
+              </div>
+            </div>
+            <p class="small">I write short notes and study guides. I publish clear examples and quick summaries. Use the posts for review or quick reference. Let's learn together! 🌟</p>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <span style="padding:6px 12px;background:#e0e7ff;border-radius:20px;font-size:12px;color:var(--accent);font-weight:600">CS Major</span>
+              <span style="padding:6px 12px;background:#fce7f3;border-radius:20px;font-size:12px;color:var(--accent-secondary);font-weight:600">Writer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:20px">
+          <h4 style="margin:0 0 16px 0;display:flex;align-items:center;gap:10px">
+            <span style="font-size:20px">🔗</span>
+            Quick links
+          </h4>
+          <ul class="quick-links">
+            <li><a href="#post-1">Study Tips for First Semester</a></li>
+            <li><a href="#post-2">Use of English: Key Topics</a></li>
+            <li><a href="#post-3">Intro to Programming</a></li>
+          </ul>
+        </div>
+        
+        <div class="card reveal" style="margin-top:20px;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));color:#fff">
+          <h4 style="margin:0 0 12px 0;font-size:18px">📬 Stay Updated</h4>
+          <p style="margin:0 0 16px 0;font-size:14px;opacity:0.9">Get new study tips delivered to your inbox!</p>
+          <input type="email" placeholder="your@email.com" style="width:100%;padding:12px 16px;border:none;border-radius:10px;font-size:14px;margin-bottom:10px">
+          <button style="width:100%;padding:12px;border:none;border-radius:10px;background:#fff;color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;transition:all 0.3s ease">Subscribe</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>© 2025 Student Blog. Written with 💜 by Canaan Davis.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('active');
+    }
+    
+    // Reading progress bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+    
+    // Scroll reveal animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+    
+    // Add click animation to buttons
+    document.querySelectorAll('.learn-btn, button').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.style.cssText = `
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.5);
+          transform: scale(0);
+          animation: ripple 0.6s ease-out;
+          pointer-events: none;
+        `;
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+    
+    // Add ripple animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
