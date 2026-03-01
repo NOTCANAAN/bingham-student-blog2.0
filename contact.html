@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact - Student Blog</title>
+  <meta name="description" content="Contact page for Student Blog readers to reach Canaan Davis.">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K3X3QNS2HH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K3X3QNS2HH');
+</script>
+  <style>
+    :root{
+      --bg:#f0f4f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#6366f1;
+      --accent-secondary:#ec4899;
+      --accent-tertiary:#10b981;
+      --text:#1f2937;
+      --max-width:900px;
+      --shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -2px rgba(0,0,0,0.1);
+      --shadow-lg:0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.1);
+      font-family: 'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      color:var(--text);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+    /* Animated background gradient */
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background: 
+        radial-gradient(ellipse at 20% 20%,rgba(99,102,241,0.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 80% 80%,rgba(236,72,153,0.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 50% 50%,rgba(16,185,129,0.05) 0%,transparent 50%);
+      pointer-events:none;
+      z-index:-1;
+      animation:bgPulse 8s ease-in-out infinite;
+    }
+
+        @keyframes bgPulse{
+      0%,100%{opacity:1}
+      50%{opacity:0.7}
+    }
+
+    .wrap{max-width:var(--max-width);margin:0 auto;padding:24px}
+
+    /* Header with glassmorphism */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:28px;
+      padding:16px 24px;
+      background:rgba(255,255,255,0.8);
+      backdrop-filter:blur(12px);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      position:sticky;
+      top:16px;
+      z-index:100;
+      animation:slideDown 0.6s ease-out;
+    }
+
+        @keyframes slideDown{
+      from{transform:translateY(-100%);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+
+    .brand{display:flex;align-items:center;gap:14px}
+
+    /* Animated logo */
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      font-size:20px;
+      position:relative;
+      overflow:hidden;
+      transition:transform 0.3s ease,box-shadow 0.3s ease;
+    }
+    
+    .logo::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent-secondary),var(--accent-tertiary));
+      opacity:0;
+      transition:opacity 0.4s ease;
+    }
+    
+    .logo:hover{transform:rotate(5deg) scale(1.05);box-shadow:0 8px 25px rgba(99,102,241,0.4)}
+    .logo:hover::before{opacity:1}
+    .logo span{position:relative;z-index:1}
+
+    h1{
+      font-size:24px;
+      margin:0;font-weight:700;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text}
+
+    nav{display:flex;gap:8px}
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      font-weight:500;
+      padding:10px 16px;
+      border-radius:10px;
+      transition:all 0.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    nav a::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      opacity:0;
+      transition:opacity 0.3s ease;
+      border-radius:10px;
+    }
+    
+    nav a:hover{color:#fff;transform:translateY(-2px)}
+    nav a:hover::before{opacity:1}
+    nav a span{position:relative;z-index:1}
+
+    /* Cards with hover lift effect */
+    .card{
+      background:var(--card);
+      border-radius:20px;
+      padding:36px;
+      box-shadow:var(--shadow);
+      transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+      position:relative;
+      overflow:hidden;
+      animation:fadeInUp 0.6s ease-out;
+    }
+    
+    .card::before{
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      transform:scaleX(0);
+      transition:transform 0.4s ease;
+    }
+    
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .card:hover::before{transform:scaleX(1)}
+
+    @keyframes fadeInUp{
+      from{transform:translateY(20px);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+
+    label{
+      display:block;
+      margin-top:12px;
+      font-weight:500
+    }
+    /* Content styling */
+    .card h2{
+      font-size:32px;
+      margin:0 0 24px 0;
+      text-align:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+    }
+    
+    .card h2::after{
+      content:'';
+      font-size:28px;
+      animation:wave 2s ease-in-out infinite;
+      -webkit-text-fill-color:initial;
+    }
+    
+    @keyframes wave{
+      0%,100%{transform:rotate(0deg)}
+      25%{transform:rotate(20deg)}
+      75%{transform:rotate(-10deg)}
+    }
+        p{
+      line-height:1.9;
+      color:#384252;
+      font-size:16px;
+      margin-bottom:20px;
+    }
+    
+    p:last-child{margin-bottom:0}
+    input,textarea{
+      width:100%;
+      padding:10px;
+      margin-top:6px;
+      border-radius:8px;border:1px solid #473f3f;font-size:14px
+    }
+
+    textarea{
+      height:120px;
+      resize:none;
+    }
+
+        button{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:16px;
+      padding:12px 24px;
+      border-radius:12px;
+      cursor: pointer;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      color:#fff;
+      border:none;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+      transition:all 0.3s ease;
+      box-shadow:0 4px 15px rgba(99,102,241,0.3);
+      position:relative;
+      overflow:hidden;
+    }
+
+        /* Mobile menu toggle */
+    .menu-toggle{
+      display:none;
+      background:none;
+      border:none;
+      font-size:24px;
+      cursor:pointer;
+      padding:8px;
+      border-radius:8px;
+      transition:background 0.3s ease;
+    }
+    .menu-toggle:hover{background:rgba(99,102,241,0.1)}
+
+    /* Floating emoji decorations */
+    .card::after{
+      content:'✨';
+      position:absolute;
+      top:20px;
+      right:24px;
+      font-size:28px;
+      animation:float 3s ease-in-out infinite;
+    }
+
+      /* Reading progress indicator */
+    .progress-bar{
+      position:fixed;
+      top:0;left:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-secondary),var(--accent-tertiary));
+      z-index:1000;
+      transition:width 0.1s ease;
+    }
+      @keyframes float{
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-10px) rotate(10deg)}
+    }
+
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      margin-top:40px;
+      padding:24px;
+      animation:fadeIn 1s ease-out 0.5s both;
+    }
+    
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+
+    @media (max-width:600px){
+      nav{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;padding:16px;border-radius:0 0 16px 16px;box-shadow:var(--shadow);flex-direction:column}
+      nav.active{display:flex}
+      .menu-toggle{display:block}
+      header{flex-wrap:wrap}
+      .card{padding:24px}
+      .card h2{font-size:24px}
+      .profile-image-card{width:160px;height:160px}
+      .circle-image{width:160px;height:160px}
+      .card::after{display:none}
+    }
+
+  </style>
+</head>
+
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+      
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>SB</span></div>
+        <div>
+          <h1>Contact</h1>
+        </div>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <nav id="mainNav">
+        <a href="index.html"><span>Home</span></a>
+        <a href="about.html"><span>About Me</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Send Me a Letter</h2>
+        <p>If you want to contact me, fill out the form below. I’ll reply to your message as soon as I can.</p>
+        <form onsubmit="event.preventDefault();alert('Message not sent');">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Enter your name" required>
+
+          <label for="email">Your Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+
+          <label for="message">Your Message</label>
+          <textarea id="message" placeholder="Write your letter here..." required></textarea>
+
+          <button class="button" type="submit">Send Message</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <h2>My Information</h2>
+        <p><strong>Name:</strong> Canaan Davis</p>
+        <p><strong>Email:</strong> canaandavis321@gmail.com</p>
+        <p><strong>Location:</strong> Abuja, Nigeria</p>
+        <p><strong>Field of Study:</strong> Computer Science</p>
+      </div>
+    </main>
+
+    <footer>
+      <div>© 2025 Student Blog. Written with 💜 by Canaan Davis.</div>
+    </footer>
+  </div>
+
+    <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('active');
+    }
+    
+    // Reading progress bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+  </script>
+</body>
+</html>
