@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KANAAN AI - Computer Science Study Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes typing {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-slide-in { animation: slideIn 0.3s ease-out forwards; }
+        .animate-typing { animation: typing 1.4s infinite; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 200% 200%;
+            animation: gradient-shift 15s ease infinite;
+        }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-strong {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        .code-header {
+            background: #2d2d2d;
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3d3d3d;
+        }
+        .copy-btn {
+            opacity: 0;
+            transition: opacity 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .code-block:hover .copy-btn { opacity: 1; }
+        .copy-btn:hover { color: white; }
+
+        .hljs {
+            background: transparent !important;
+            padding: 12px !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .message-bubble {
+            max-width: 90%;
+            word-wrap: break-word;
+        }
+
+        @media (min-width: 768px) {
+            .message-bubble { max-width: 85%; }
+            .hljs { font-size: 0.9rem; padding: 16px !important; }
+            .code-block { margin: 12px 0; }
+            .code-header { padding: 8px 16px; }
+            .copy-btn { font-size: 12px; }
+        }
+
+        .bot-avatar {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+        .send-btn:active { transform: scale(0.95); }
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quick-chip {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .quick-chip:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #a78bfa;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+        }
+
+        @media (min-width: 768px) {
+            .typing-dot { width: 8px; height: 8px; }
+        }
+
+        #chatContainer { scroll-behavior: smooth; }
+
+        .topic-btn {
+            transition: all 0.2s;
+        }
+        .topic-btn:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile sidebar overlay */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Mobile sidebar */
+        @media (max-width: 767px) {
+            .mobile-sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                bottom: 0;
+                width: 280px;
+                z-index: 50;
+                transition: left 0.3s ease;
+            }
+            .mobile-sidebar.active { left: 0; }
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* History Modal */
+        .history-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .history-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .history-content {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .history-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #334155;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .history-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+    </style>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body class="bg-slate-950 text-slate-100 h-screen overflow-hidden gradient-bg">
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="history-modal" onclick="closeHistoryModal(event)">
+        <div class="history-content" onclick="event.stopPropagation()">
+            <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-purple-400">Chat History</h3>
+                <button onclick="closeHistoryModal()" class="p-2 text-slate-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div id="historyList" class="overflow-y-auto flex-1 max-h-[60vh]">
+                <div class="p-8 text-center text-slate-500">No saved chats yet</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="flex h-full">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="mobile-sidebar md:relative w-[280px] md:w-80 glass-strong flex flex-col border-r border-slate-800 flex-shrink-0">
+            <div class="p-4 md:p-6 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bot-avatar flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl md:text-2xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">KANAAN AI</h1>
+                        <p class="text-xs text-slate-400">CS Study Companion</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="md:hidden p-2 text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="p-3 md:p-4 space-y-1 md:space-y-2 overflow-y-auto flex-1">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 md:mb-3 px-2">Quick Topics</p>
+
+                <button onclick="quickSend('Explain Variables')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 flex-shrink-0"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    <span class="truncate">Variables</span>
+                </button>
+
+                <button onclick="quickSend('Explain Loops')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400 flex-shrink-0"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                    <span class="truncate">Loops</span>
+                </button>
+
+                <button onclick="quickSend('Explain Functions')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400 flex-shrink-0"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
+                    <span class="truncate">Functions</span>
+                </button>
+
+                <button onclick="quickSend('Help me debug code')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400 flex-shrink-0"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13V6a3 3 0 0 1 3-3 3 3 0 0 1 3 3"/><path d="M12 19v-3"/><path d="M12 19a3 3 0 1 0 3 3 3 3 0 0 0-3-3"/></svg>
+                    <span class="truncate">Debug</span>
+                </button>
+
+                <button onclick="quickSend('Explain Arrays')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400 flex-shrink-0"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    <span class="truncate">Arrays</span>
+                </button>
+
+                <button onclick="quickSend('Explain Search algorithms')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-cyan-400 flex-shrink-0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <span class="truncate">Search</span>
+                </button>
+
+                <button onclick="quickSend('Explain Sorting algorithms')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+                    <span class="truncate">Sort</span>
+                </button>
+
+                <button onclick="quickSend('Explain Recursion')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pink-400 flex-shrink-0"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    <span class="truncate">Recursion</span>
+                </button>
+
+                <button onclick="quickSend('Create a study plan')" class="topic-btn w-full text-left px-3 md:px-4 py-2.5 md:py-3 rounded-lg border border-transparent flex items-center gap-2 md:gap-3 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400 flex-shrink-0"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <span class="truncate">Study Plan</span>
+                </button>
+            </div>
+
+            <div class="p-3 md:p-4 border-t border-slate-800">
+                <div class="bg-slate-800/50 rounded-lg p-2.5 md:p-3 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-500">Messages</span>
+                        <span id="msgCount" class="text-purple-400 font-semibold">0</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Chat Area -->
+        <main class="flex-1 flex flex-col relative min-w-0">
+            <header class="glass border-b border-slate-800 px-3 md:px-6 py-3 md:py-4 flex items-center justify-between sticky top-0 z-20">
+                <div class="flex items-center gap-2 md:gap-3">
+                    <button onclick="toggleSidebar()" class="menu-btn md:hidden p-2 text-slate-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>
+                    </button>
+                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bot-avatar flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    </div>
+                    <div class="hidden md:block">
+                        <span class="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">KANAAN AI</span>
+                    </div>
+                    <div class="md:hidden">
+                        <span class="font-bold text-base text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">KANAAN</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1 md:gap-2">
+                    <span class="hidden md:flex px-2 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs border border-purple-500/20 items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                        Online
+                    </span>
+                    <a href="https://notcanaan.github.io/bingham-student-blog2.0/" target="_self" class="p-2 rounded-lg hover:bg-slate-800/50 text-slate-400 hover:text-blue-400 transition-all flex items-center gap-1" title="Back to Site">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        <span class="hidden md:inline text-xs">Back to Site</span>
+                    </a>
+                    <button onclick="openHistory()" class="p-2 rounded-lg hover:bg-slate-800/50 text-slate-400 hover:text-purple-400 transition-all" title="Chat History">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+                    </button>
+                    <button onclick="newChat()" class="p-2 rounded-lg hover:bg-slate-800/50 text-slate-400 hover:text-red-400 transition-all" title="New Chat">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Messages -->
+            <div id="chatContainer" class="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 md:space-y-6">
+                <!-- Welcome -->
+                <div class="flex gap-3 md:gap-4 animate-slide-in">
+                    <div class="w-9 h-9 md:w-12 md:h-12 rounded-full bot-avatar flex-shrink-0 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    </div>
+                    <div class="message-bubble bg-slate-800/80 border border-slate-700 rounded-2xl rounded-bl-sm p-3 md:p-5 shadow-xl">
+                        <h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-purple-400">Hey there! I'm KANAAN AI 👋</h3>
+                        <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-3">
+                            Your personal computer science study buddy! I can help with debugging, explaining concepts, and keeping you company during late-night coding sessions.
+                        </p>
+                        <p class="text-xs md:text-sm text-slate-400 mb-2">Quick starters:</p>
+                        <div class="flex flex-wrap gap-1.5 md:gap-2">
+                            <button onclick="quickSend('Explain Variables')" class="quick-chip px-2.5 md:px-3 py-1 md:py-1.5 rounded-full text-xs text-purple-300">Variables</button>
+                            <button onclick="quickSend('Explain Loops')" class="quick-chip px-2.5 md:px-3 py-1 md:py-1.5 rounded-full text-xs text-purple-300">Loops</button>
+                            <button onclick="quickSend('Explain Functions')" class="quick-chip px-2.5 md:px-3 py-1 md:py-1.5 rounded-full text-xs text-purple-300">Functions</button>
+                            <button onclick="quickSend('Explain Arrays')" class="quick-chip px-2.5 md:px-3 py-1 md:py-1.5 rounded-full text-xs text-purple-300">Arrays</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="glass border-t border-slate-800 p-2.5 md:p-6">
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex items-end gap-2 bg-slate-900/80 border border-slate-700 rounded-2xl p-2 md:p-3 shadow-2xl focus-within:border-purple-500/50 transition-all">
+                        <textarea 
+                            id="messageInput" 
+                            rows="1"
+                            placeholder="Ask me anything about CS..." 
+                            class="flex-1 bg-transparent text-slate-200 placeholder-slate-500 px-3 md:px-4 py-2 md:py-3 resize-none outline-none font-mono text-sm max-h-32 min-h-[40px] md:min-h-[48px]"
+                            style="height: 40px;"
+                        ></textarea>
+
+                        <button id="sendButton" class="send-btn w-10 h-10 md:w-12 md:h-12 rounded-xl text-white flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center mt-1.5 md:mt-2 px-2">
+                        <span class="text-[10px] md:text-xs text-slate-600">Press Enter to send</span>
+                        <span class="text-[10px] md:text-xs text-slate-500">KANAAN AI</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+
+        let isProcessing = false;
+        let messageCount = 0;
+        let userName = null;
+        let sidebarOpen = false;
+        const chatHistory = [];
+        let savedChats = JSON.parse(localStorage.getItem('kanaan_chats') || '[]');
+
+        // Context Memory System - Tracks conversation state
+        const contextMemory = {
+            lastTopic: null,
+            lastIntent: null,
+            name: null,
+            favoriteFood: null,
+            mood: null,
+            hobbies: [],
+            goals: [],
+            explainedConcepts: [],
+            currentDepth: 0,
+            userPreferences: {
+                preferredLanguage: null,
+                skillLevel: 'beginner',
+                lastDebugCode: null
+            },
+            conversationFlow: [],
+
+            addToContext(intent, topic, details = {}) {
+                this.lastIntent = intent;
+                this.lastTopic = topic;
+                this.currentDepth++;
+                this.conversationFlow.push({
+                    intent,
+                    topic,
+                    timestamp: Date.now(),
+                    ...details
+                });
+
+                if (this.conversationFlow.length > 10) {
+                    this.conversationFlow.shift();
+                }
+
+                if (intent === 'explain' && !this.explainedConcepts.includes(topic)) {
+                    this.explainedConcepts.push(topic);
+                }
+            },
+
+            isFollowUp(input) {
+                // Don't treat as follow-up if last topic was a greeting/social
+                if (this.lastTopic === 'hello' || this.lastTopic === 'how_are_you' || 
+                    this.lastTopic === 'thanks' || this.lastTopic === 'goodbye' ||
+                    this.lastTopic === 'identity' || this.lastTopic === 'capabilities' ||
+                    this.lastTopic === 'general' || this.lastTopic === 'name') {
+                    return false;
+                }
+
+                const followUpPatterns = [
+                    'more', 'else', 'other', 'another', 'also', 'too',
+                    'why', 'how', 'when', 'where', 'what about',
+                    'explain', 'tell me', 'show me', 'give me',
+                    'example', 'code', 'python', 'java', 'javascript',
+                    'difference', 'compare', 'vs', 'versus',
+                    'problem', 'issue', 'error', 'bug', 'fix',
+                    'yes', 'yeah', 'sure', 'ok', 'okay', 'please'
+                ];
+
+                const lowerInput = input.toLowerCase();
+                return followUpPatterns.some(pattern => lowerInput.includes(pattern)) &&
+                       this.conversationFlow.length > 0;
+            },
+
+            getRelevantContext() {
+                const recent = this.conversationFlow.slice(-3);
+                return {
+                    lastTopic: this.lastTopic,
+                    lastIntent: this.lastIntent,
+                    recentFlow: recent,
+                    explainedConcepts: this.explainedConcepts,
+                    depth: this.currentDepth,
+                    preferences: this.userPreferences
+                };
+            },
+
+            detectLanguagePreference(input) {
+                const languages = {
+                    'python': ['python', 'py'],
+                    'javascript': ['javascript', 'js', 'node'],
+                    'java': ['java'],
+                    'cpp': ['c++', 'cpp', 'c'],
+                    'csharp': ['c#', 'csharp', 'cs']
+                };
+
+                const lower = input.toLowerCase();
+                for (const [lang, aliases] of Object.entries(languages)) {
+                    if (aliases.some(alias => lower.includes(alias))) {
+                        this.userPreferences.preferredLanguage = lang;
+                        return lang;
+                    }
+                }
+                return this.userPreferences.preferredLanguage;
+            },
+
+            reset() {
+                this.lastTopic = null;
+                this.lastIntent = null;
+                this.currentDepth = 0;
+                this.conversationFlow = [];
+            }
+        };
+
+        // Enhanced Knowledge Base
+        const knowledgeBase = {
+            variables: {
+                title: "Variables & Data Types",
+                content: `<strong>Variables</strong> are named containers that store data values in memory.<br><br>
+<strong>Key Concepts:</strong><br>
+• <strong>Declaration:</strong> Creating a variable (var, let, const in JS; type name in C++/Java)<br>
+• <strong>Assignment:</strong> Giving a value to a variable with =<br>
+• <strong>Scope:</strong> Where the variable is accessible (global, local, block)<br>
+• <strong>Data Types:</strong> Integer, Float, String, Boolean, Array, Object<br><br>
+<strong>Naming Rules:</strong><br>
+• Use descriptive names (userAge, not x)<br>
+• Start with letter or underscore<br>
+• Case-sensitive (age ≠ Age)<br>
+• Avoid reserved keywords<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Variable examples
+user_name = "Alice"      # String
+age = 25                 # Integer
+height = 5.6             # Float
+is_student = True        # Boolean
+scores = [85, 92, 78]    # List/Array
+
+# Multiple assignment
+x, y, z = 1, 2, 3
+
+# Swapping values
+a, b = 10, 20
+a, b = b, a  # Now a=20, b=10</code></pre></div>`
+            },
+
+            loops: {
+                title: "Loops & Iteration",
+                content: `<strong>Loops</strong> allow you to execute code repeatedly.<br><br>
+<strong>For Loop:</strong> Used when you know the iteration count<br>
+<strong>While Loop:</strong> Used when condition-based<br>
+<strong>Do-While:</strong> Executes at least once (not in Python)<br><br>
+<strong>Loop Control:</strong><br>
+• <strong>break:</strong> Exit loop immediately<br>
+• <strong>continue:</strong> Skip to next iteration<br>
+• <strong>pass:</strong> Do nothing (placeholder)<br><br>
+<strong>Optimization Tips:</strong><br>
+• Avoid heavy operations inside loops<br>
+• Cache array lengths outside loops<br>
+• Use the right loop for the job<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># For loop with range
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# Iterate over collection
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+
+# While loop
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+
+# Nested loops (O(n²) complexity)
+for i in range(3):
+    for j in range(3):
+        print(f"{i},{j}")</code></pre></div>`
+            },
+
+            functions: {
+                title: "Functions & Methods",
+                content: `<strong>Functions</strong> are reusable blocks of code that perform specific tasks.<br><br>
+<strong>Key Concepts:</strong><br>
+• <strong>Parameters:</strong> Input variables (declaration)<br>
+• <strong>Arguments:</strong> Actual values passed<br>
+• <strong>Return:</strong> Output value sent back<br>
+• <strong>Scope:</strong> Variables inside functions are local<br><br>
+<strong>Parameter Passing:</strong><br>
+• <strong>By Value:</strong> Copy of data (primitives)<br>
+• <strong>By Reference:</strong> Memory address (objects/arrays)<br><br>
+<strong>Function Types:</strong><br>
+• Regular functions<br>
+• Arrow functions (JavaScript)<br>
+• Lambda/Anonymous functions<br>
+• Recursive functions<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Function definition
+def greet(name, greeting="Hello"):
+    """Returns a personalized greeting"""
+    return f"{greeting}, {name}!"
+
+# Calling functions
+print(greet("Alice"))           # Hello, Alice!
+print(greet("Bob", "Hi"))       # Hi, Bob!
+
+# Multiple return values
+def get_stats(numbers):
+    return min(numbers), max(numbers), sum(numbers)/len(numbers)
+
+min_val, max_val, avg = get_stats([1, 5, 3, 9, 2])
+
+# Lambda function
+square = lambda x: x ** 2
+print(square(5))  # 25</code></pre></div>`
+            },
+
+            arrays: {
+                title: "Arrays & Lists",
+                content: `<strong>Arrays</strong> are ordered collections of elements stored at contiguous memory locations.<br><br>
+<strong>Time Complexities:</strong><br>
+• <strong>Access by index:</strong> O(1) - Direct memory access<br>
+• <strong>Search (linear):</strong> O(n) - Check each element<br>
+• <strong>Insert at end:</strong> O(1) amortized<br>
+• <strong>Insert at middle:</strong> O(n) - Must shift elements<br>
+• <strong>Delete:</strong> O(n) - Must shift elements<br><br>
+<strong>Array Types:</strong><br>
+• <strong>Static:</strong> Fixed size (C, Java arrays)<br>
+• <strong>Dynamic:</strong> Resizable (Python lists, ArrayList)<br>
+• <strong>Multi-dimensional:</strong> 2D arrays, matrices<br><br>
+<strong>Common Operations:</strong><br>
+• Traversal, Insertion, Deletion, Searching, Sorting<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Array/List operations
+arr = [10, 20, 30, 40, 50]
+
+# Access - O(1)
+first = arr[0]      # 10
+last = arr[-1]      # 50
+
+# Insert at end - O(1)
+arr.append(60)
+
+# Insert at index - O(n)
+arr.insert(2, 25)   # [10, 20, 25, 30, 40, 50, 60]
+
+# Delete - O(n)
+arr.remove(30)      # Removes value 30
+popped = arr.pop()  # Removes and returns last
+
+# Search - O(n)
+index = arr.index(40)  # Returns 4
+
+# Slicing
+sub = arr[1:4]      # [20, 25, 40]</code></pre></div>`
+            },
+
+            search: {
+                title: "Search Algorithms",
+                content: `<strong>Search Algorithms</strong> find specific elements in data structures.<br><br>
+<strong>1. Linear Search:</strong> O(n)<br>
+Check each element sequentially. Works on unsorted data.<br><br>
+<strong>2. Binary Search:</strong> O(log n)<br>
+Requires sorted data. Repeatedly divides search interval in half.<br><br>
+<strong>3. Interpolation Search:</strong> O(log log n) best case<br>
+Improved binary search for uniformly distributed data.<br><br>
+<strong>Comparison:</strong><br>
+<table class="text-sm mt-2">
+<tr><td class="pr-4 text-purple-400"><strong>Algorithm</strong></td><td class="text-purple-400"><strong>Time</strong></td><td class="text-purple-400"><strong>Requires Sorted</strong></td></tr>
+<tr><td>Linear</td><td>O(n)</td><td>No</td></tr>
+<tr><td>Binary</td><td>O(log n)</td><td>Yes</td></tr>
+<tr><td>Interpolation</td><td>O(log log n)</td><td>Yes + Uniform</td></tr>
+</table><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Linear Search - O(n)
+def linear_search(arr, target):
+    for i, val in enumerate(arr):
+        if val == target:
+            return i
+    return -1
+
+# Binary Search - O(log n)
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1</code></pre></div>`
+            },
+
+            sort: {
+                title: "Sorting Algorithms",
+                content: `<strong>Sorting Algorithms</strong> arrange data in a specific order (ascending/descending).<br><br>
+<strong>Comparison-Based Sorts:</strong><br>
+• <strong>Bubble Sort:</strong> O(n²) - Simple, swap adjacent elements<br>
+• <strong>Selection Sort:</strong> O(n²) - Find minimum, swap to front<br>
+• <strong>Insertion Sort:</strong> O(n²) - Build sorted array one item at a time<br>
+• <strong>Merge Sort:</strong> O(n log n) - Divide and conquer, stable<br>
+• <strong>Quick Sort:</strong> O(n log n) avg - Partition-based, fastest in practice<br>
+• <strong>Heap Sort:</strong> O(n log n) - Uses heap data structure<br><br>
+<strong>Non-Comparison:</strong><br>
+• <strong>Counting Sort:</strong> O(n + k) - For integers in range<br>
+• <strong>Radix Sort:</strong> O(nk) - Digit by digit sorting<br><br>
+<strong>Quick Sort vs Merge Sort:</strong><br>
+• Quick Sort: Faster on average, O(log n) space, not stable<br>
+• Merge Sort: Guaranteed O(n log n), O(n) space, stable<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Quick Sort - O(n log n) average
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quick_sort(left) + middle + quick_sort(right)
+
+# Merge Sort - O(n log n) guaranteed
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    while left and right:
+        if left[0] < right[0]:
+            result.append(left.pop(0))
+        else:
+            result.append(right.pop(0))
+    result.extend(left or right)
+    return result</code></pre></div>`
+            },
+
+            recursion: {
+                title: "Recursion",
+                content: `<strong>Recursion</strong> is when a function calls itself to solve smaller instances of the same problem.<br><br>
+<strong>Essential Components:</strong><br>
+• <strong>Base Case:</strong> Condition to stop recursion (prevents infinite loops)<br>
+• <strong>Recursive Case:</strong> Function calls itself with modified parameters<br><br>
+<strong>Common Examples:</strong><br>
+• Factorial, Fibonacci, Tree traversal, Binary search, Merge sort<br><br>
+<strong>Stack Overflow Risk:</strong><br>
+Each recursive call adds a stack frame. Too deep = crash!<br>
+<strong>Solutions:</strong><br>
+• Use iteration instead<br>
+• Use memoization (cache results)<br>
+• Use tail recursion (if language supports optimization)<br><br>
+<strong>Recursion vs Iteration:</strong><br>
+• Recursion: Cleaner code, uses more memory<br>
+• Iteration: Faster, uses less memory<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Factorial with recursion
+def factorial(n):
+    # Base case
+    if n <= 1:
+        return 1
+    # Recursive case
+    return n * factorial(n - 1)
+
+# Fibonacci with memoization
+def fib(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 2:
+        return 1
+    memo[n] = fib(n-1, memo) + fib(n-2, memo)
+    return memo[n]
+
+# Recursive binary search
+def binary_search_recursive(arr, target, left, right):
+    if left > right:
+        return -1
+    mid = (left + right) // 2
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return binary_search_recursive(arr, target, mid+1, right)
+    else:
+        return binary_search_recursive(arr, target, left, mid-1)</code></pre></div>`
+            },
+
+            debug: {
+                title: "Debugging Techniques",
+                content: `<strong>Debugging</strong> is the process of finding and fixing errors in code.<br><br>
+<strong>Types of Errors:</strong><br>
+• <strong>Syntax Errors:</strong> Code violates language rules (catches at compile/parse)<br>
+• <strong>Runtime Errors:</strong> Occur during execution (null pointer, division by zero)<br>
+• <strong>Logic Errors:</strong> Code runs but produces wrong results (hardest to find!)<br><br>
+<strong>Debugging Strategies:</strong><br>
+• <strong>Print Debugging:</strong> Add print statements to trace execution<br>
+• <strong>Binary Search Debugging:</strong> Comment out half the code to isolate issue<br>
+• <strong>Rubber Duck Debugging:</strong> Explain code line by line to an object<br>
+• <strong>Use a Debugger:</strong> Set breakpoints, step through code, inspect variables<br><br>
+<strong>Common Bug Patterns:</strong><br>
+• Off-by-one errors (using <= instead of <)<br>
+• Null/undefined checks missing<br>
+• Variable shadowing<br>
+• Modifying array while iterating<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Debugging example with print statements
+def find_max(arr):
+    if not arr:
+        return None  # Edge case check
+
+    print(f"Input array: {arr}")  # Debug print
+
+    max_val = arr[0]
+    for i, num in enumerate(arr):
+        print(f"Checking index {i}: {num}, current max: {max_val}")
+        if num > max_val:
+            max_val = num
+            print(f"  -> New max found: {max_val}")
+
+    return max_val
+
+# Using assertions for debugging
+def divide(a, b):
+    assert b != 0, "Cannot divide by zero!"
+    return a / b</code></pre></div>`
+            },
+
+            bigo: {
+                title: "Big O Notation",
+                content: `<strong>Big O Notation</strong> describes the performance or complexity of an algorithm.<br><br>
+<strong>Common Complexities (Best to Worst):</strong><br>
+• <strong>O(1)</strong> - Constant: Hash table lookup, array access<br>
+• <strong>O(log n)</strong> - Logarithmic: Binary search<br>
+• <strong>O(n)</strong> - Linear: Array traversal, linear search<br>
+• <strong>O(n log n)</strong> - Linearithmic: Merge sort, Quick sort<br>
+• <strong>O(n²)</strong> - Quadratic: Nested loops, Bubble sort<br>
+• <strong>O(2^n)</strong> - Exponential: Recursive Fibonacci<br>
+• <strong>O(n!)</strong> - Factorial: Traveling salesman<br><br>
+<strong>Space Complexity:</strong><br>
+Measures extra memory used. O(1) = in-place, O(n) = needs extra array.<br><br>
+<strong>Amortized Analysis:</strong><br>
+Some operations are expensive but rare (e.g., ArrayList resizing).<br><br>
+<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># O(1) - Constant time
+def get_first(arr):
+    return arr[0]  # Always 1 operation
+
+# O(n) - Linear time  
+def find_max(arr):
+    max_val = arr[0]
+    for x in arr:    # n operations
+        if x > max_val:
+            max_val = x
+    return max_val
+
+# O(n²) - Quadratic (nested loops)
+def find_pairs(arr):
+    result = []
+    for i in range(len(arr)):      # n
+        for j in range(i+1, len(arr)):  # n
+            result.append((arr[i], arr[j]))
+    return result</code></pre></div>`
+            }
+        };
+
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const msgCountEl = document.getElementById('msgCount');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            messageInput.focus();
+
+            sendButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleSend();
+            });
+
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                }
+            });
+
+            messageInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                const maxHeight = window.innerWidth < 768 ? 100 : 128;
+                this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
+            });
+
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 768 && sidebarOpen) {
+                    if (!sidebar.contains(e.target) && !e.target.closest('.menu-btn')) {
+                        toggleSidebar();
+                    }
+                }
+            });
+        });
+
+        function toggleSidebar() {
+            sidebarOpen = !sidebarOpen;
+            sidebar.classList.toggle('active', sidebarOpen);
+            sidebarOverlay.classList.toggle('active', sidebarOpen);
+            if (sidebarOpen) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function quickSend(text) {
+            messageInput.value = text;
+            messageInput.style.height = 'auto';
+            const maxHeight = window.innerWidth < 768 ? 100 : 128;
+            messageInput.style.height = Math.min(messageInput.scrollHeight, maxHeight) + 'px';
+            if (window.innerWidth < 768) toggleSidebar();
+            handleSend();
+        }
+
+        function handleSend() {
+            if (isProcessing) return;
+
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            isProcessing = true;
+            sendButton.disabled = true;
+
+            chatHistory.push({ role: 'user', content: text, time: new Date().toISOString() });
+
+            addUserMessage(text);
+            messageCount++;
+            updateMsgCount();
+
+            messageInput.value = '';
+            messageInput.style.height = window.innerWidth < 768 ? '40px' : '48px';
+
+            showTyping();
+
+            setTimeout(() => {
+                hideTyping();
+                const response = generateSmartResponse(text);
+                addBotMessage(response);
+                chatHistory.push({ role: 'bot', content: response, time: new Date().toISOString() });
+                messageCount++;
+                updateMsgCount();
+
+                isProcessing = false;
+                sendButton.disabled = false;
+                messageInput.focus();
+            }, 600 + Math.random() * 300);
+        }
+
+        function updateMsgCount() {
+            if (msgCountEl) msgCountEl.textContent = messageCount;
+        }
+
+        function addUserMessage(text) {
+            const div = document.createElement('div');
+            div.className = 'flex gap-3 md:gap-4 flex-row-reverse animate-slide-in';
+            div.innerHTML = `
+                <div class="w-9 h-9 md:w-12 md:h-12 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center border border-slate-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-300"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="message-bubble bg-purple-600 text-white rounded-2xl rounded-br-sm p-3 md:p-4 shadow-xl">
+                    <div class="text-white text-sm md:text-base">${escapeHtml(text)}</div>
+                </div>
+            `;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function addBotMessage(htmlContent) {
+            const div = document.createElement('div');
+            div.className = 'flex gap-3 md:gap-4 animate-slide-in';
+            div.innerHTML = `
+                <div class="w-9 h-9 md:w-12 md:h-12 rounded-full bot-avatar flex-shrink-0 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                </div>
+                <div class="message-bubble bg-slate-800/80 border border-slate-700 rounded-2xl rounded-bl-sm p-3 md:p-4 shadow-xl">
+                    <div class="text-slate-300 text-sm md:text-base leading-relaxed">${htmlContent}</div>
+                </div>
+            `;
+            chatContainer.appendChild(div);
+
+            div.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+
+            scrollToBottom();
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.id = 'typingIndicator';
+            div.className = 'flex gap-3 md:gap-4 animate-slide-in';
+            div.innerHTML = `
+                <div class="w-9 h-9 md:w-12 md:h-12 rounded-full bot-avatar flex-shrink-0 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700 rounded-2xl rounded-bl-sm p-3 md:p-4 flex items-center gap-1">
+                    <span class="typing-dot animate-typing"></span>
+                    <span class="typing-dot animate-typing" style="animation-delay: 0.2s"></span>
+                    <span class="typing-dot animate-typing" style="animation-delay: 0.4s"></span>
+                </div>
+            `;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function generateSmartResponse(input) {
+            const lower = input.toLowerCase();
+            const ctx = contextMemory.getRelevantContext();
+
+            contextMemory.detectLanguagePreference(input);
+
+            // Check for name introduction
+            if (!userName && (lower.includes('my name is') || lower.includes('i am') || lower.includes('i\'m') || lower.includes('im'))) {
+                const match = input.match(/(?:my name is|i am|i\'m|im)\s+(\w+)/i);
+                if (match) {
+                    userName = match[1];
+                    contextMemory.addToContext('intro', 'name', { userName });
+                    return `Nice to meet you, <strong>${userName}</strong>! 👋 I'll remember that. What CS topic shall we explore today?`;
+                }
+            }
+
+            // Handle follow-up questions
+            if (contextMemory.isFollowUp(input) && ctx.lastTopic) {
+                return handleFollowUp(input, lower, ctx);
+            }
+
+            // Greetings
+            if (/\b(hi|hello|hey|howdy|greetings|yo|sup|hola)\b/.test(lower)) {
+                contextMemory.addToContext('greeting', 'hello');
+                const greetings = [
+                    userName ? `Hey ${userName}! 👋 Ready to code?` : "Hey there! 👋 Ready to dive into some CS?",
+                    "Hello! What are we hacking on today? 💻",
+                    "Hey! What's up?",
+                    "Hi! What do you need help with?"
+                ];
+                return pickRandom(greetings);
+            }
+
+            if (lower.includes('how are you')) {
+                contextMemory.addToContext('greeting', 'how_are_you');
+                return "I'm doing great! Ready to help you learn. What are you working on?";
+            }
+
+            if (lower.includes('who are you') || lower.includes('what are you')) {
+                contextMemory.addToContext('meta', 'identity');
+                return "I'm <strong>KANAAN AI</strong>, your CS study companion! I help with debugging, algorithms, data structures, and interview prep.";
+            }
+
+            if (lower.includes('tip') || lower.includes('how to study')) {
+                const tips = [
+                    "Pomodoro technique: 25 min study, 5 min break! 🍅",
+                    "Teach what you learn to someone else - it reinforces memory! 👨‍🏫",
+                    "Sleep after studying - your brain consolidates memories! 😴",
+                    "Use active recall - test yourself instead of re-reading! 🧠"
+                ];
+                return pickRandom(tips);
+            }
+
+            if (lower.includes('thank')) {
+                contextMemory.addToContext('social', 'thanks');
+                return "You're welcome! Happy coding! 🚀";
+            }
+
+            if (lower.includes('tired') || lower.includes('stressed')) {
+                contextMemory.addToContext('social', 'emotional_support');
+                return "Take a break! You've got this. Every expert was once a beginner. 💪";
+            }
+
+            // KNOWLEDGE BASE TOPICS
+
+            // Variables
+            if (lower.includes('variable') || lower.includes('data type') || lower.includes('declaration') || lower.includes('assignment')) {
+                contextMemory.addToContext('explain', 'variables', { concept: true });
+                return knowledgeBase.variables.content;
+            }
+
+            // Loops
+            if (lower.includes('loop') || lower.includes('for loop') || lower.includes('while') || lower.includes('iteration') || lower.includes('iterate')) {
+                contextMemory.addToContext('explain', 'loops', { concept: true });
+                return knowledgeBase.loops.content;
+            }
+
+            // Functions
+            if (lower.includes('function') || lower.includes('method') || lower.includes('parameter') || lower.includes('argument') || lower.includes('return') || lower.includes('def ')) {
+                contextMemory.addToContext('explain', 'functions', { concept: true });
+                return knowledgeBase.functions.content;
+            }
+
+            // Arrays
+            if (lower.includes('array') || lower.includes('list') || lower.includes('index') || lower.includes('element')) {
+                contextMemory.addToContext('explain', 'arrays', { concept: true });
+                return knowledgeBase.arrays.content;
+            }
+
+            // Search
+            if (lower.includes('search') || lower.includes('linear search') || lower.includes('binary search') || lower.includes('find element')) {
+                contextMemory.addToContext('explain', 'search', { algorithm: true });
+                return knowledgeBase.search.content;
+            }
+
+            // Sort
+            if (lower.includes('sort') || lower.includes('sorting') || lower.includes('quick sort') || lower.includes('merge sort') || lower.includes('bubble sort') || lower.includes('algorithm')) {
+                contextMemory.addToContext('explain', 'sort', { algorithm: true });
+                return knowledgeBase.sort.content;
+            }
+
+            // Recursion
+            if (lower.includes('recursion') || lower.includes('recursive') || lower.includes('base case') || lower.includes('stack overflow')) {
+                contextMemory.addToContext('explain', 'recursion', { concept: true });
+                return knowledgeBase.recursion.content;
+            }
+
+            // Debug
+            if (lower.includes('debug') || lower.includes('error') || lower.includes('bug') || lower.includes('fix') || lower.includes('issue') || lower.includes('problem') || lower.includes('not working')) {
+                contextMemory.addToContext('explain', 'debug', { support: true });
+                contextMemory.userPreferences.lastDebugCode = input;
+                return knowledgeBase.debug.content;
+            }
+
+            // Big O
+            if (lower.includes('big o') || lower.includes('complexity') || lower.includes('o(n)') || lower.includes('time complexity') || lower.includes('space complexity')) {
+                contextMemory.addToContext('explain', 'bigo', { complexity: true });
+                return knowledgeBase.bigo.content;
+            }
+
+            // Study Plan
+            if (lower.includes('study plan') || lower.includes('roadmap') || lower.includes('learn') || lower.includes('curriculum')) {
+                contextMemory.addToContext('help', 'study_plan', { planning: true });
+                return `<strong>📚 8-Week CS Fundamentals Study Plan</strong><br><br>
+<strong>Week 1-2: Programming Basics</strong><br>
+• Variables, data types, operators<br>
+• Input/output, basic programs<br>
+• Practice: Simple calculators, converters<br><br>
+<strong>Week 3-4: Control Flow & Functions</strong><br>
+• If/else statements, logical operators<br>
+• For loops, while loops, nested loops<br>
+• Functions, parameters, return values<br>
+• Practice: Pattern printing, number problems<br><br>
+<strong>Week 5-6: Data Structures</strong><br>
+• Arrays/lists: operations, searching<br>
+• Strings and manipulation<br>
+• 2D arrays/matrices<br>
+• Practice: Array problems on LeetCode Easy<br><br>
+<strong>Week 7-8: Algorithms</strong><br>
+• Sorting: Bubble, Selection, Insertion, Quick, Merge<br>
+• Searching: Linear, Binary<br>
+• Recursion basics<br>
+• Big O notation<br>
+• Practice: 50+ LeetCode Easy problems<br><br>
+<strong>Daily Routine:</strong><br>
+• 2 hours coding practice<br>
+• 30 min theory/review<br>
+• 1 problem minimum per day<br>
+• Weekend: Review weak areas<br><br>
+<strong>Resources:</strong><br>
+• LeetCode (Easy problems)<br>
+• HackerRank (30 Days of Code)<br>
+• freeCodeCamp<br>
+• YouTube: NeetCode, Abdul Bari`;
+            }
+
+            if (lower.includes('interview') || lower.includes('job') || lower.includes('career') || lower.includes('hire')) {
+                contextMemory.addToContext('help', 'interview_prep', { career: true });
+                return `<strong>🎯 Interview Prep Strategy</strong><br><br>
+<strong>Most Asked Topics (in order):</strong><br>
+1. Arrays & Strings (40% of questions)<br>
+2. Hash Tables/Maps (20%)<br>
+3. Two Pointers / Sliding Window (15%)<br>
+4. Binary Search & Variations (10%)<br>
+5. Trees & Graphs (10%)<br>
+6. Dynamic Programming (5%)<br><br>
+<strong>Interview Structure:</strong><br>
+• <strong>Introduction:</strong> 2-3 min about yourself<br>
+• <strong>Coding:</strong> 30-45 min (1-2 problems)<br>
+• <strong>Questions:</strong> Ask about team/culture<br><br>
+<strong>Problem-Solving Framework:</strong><br>
+1. <strong>Clarify:</strong> Ask about constraints, edge cases<br>
+2. <strong>Brute Force:</strong> Start simple, state complexity<br>
+3. <strong>Optimize:</strong> Improve time/space<br>
+4. <strong>Code:</strong> Clean, commented code<br>
+5. <strong>Test:</strong> Walk through with examples<br><br>
+<strong>Behavioral Tips:</strong><br>
+• Use STAR method (Situation, Task, Action, Result)<br>
+• Show enthusiasm for learning<br>
+• Admit when you don't know something<br>
+• Think out loud during coding`;
+            }
+
+            if (lower.includes('what can you do') || lower.includes('help') || lower.includes('topics') || lower.includes('capabilities')) {
+                contextMemory.addToContext('meta', 'capabilities');
+                return `I can help you with these CS topics:<br><br>
+<strong>Fundamentals:</strong><br>
+• <strong>Variables</strong> - Data types, scope, naming<br>
+• <strong>Loops</strong> - For, while, iteration patterns<br>
+• <strong>Functions</strong> - Parameters, return values, scope<br>
+• <strong>Arrays</strong> - Operations, complexity, techniques<br><br>
+<strong>Algorithms:</strong><br>
+• <strong>Search</strong> - Linear, Binary, Interpolation<br>
+• <strong>Sort</strong> - Quick, Merge, Bubble, Selection<br>
+• <strong>Recursion</strong> - Base cases, memoization<br>
+• <strong>Big O</strong> - Time & space complexity<br><br>
+<strong>Tools:</strong><br>
+• <strong>Debug</strong> - Error analysis, debugging strategies<br>
+• <strong>Study Plan</strong> - Learning roadmap<br>
+• <strong>Quiz</strong> - Test your knowledge (click the quiz button!)<br><br>
+Just ask about any topic or paste code for help!`;
+            }
+
+            // Goodbye - Fixed the || vs | bug
+            if (lower.includes('bye') || lower.includes('goodbye') || lower.includes('see you') || lower.includes('later') || lower.includes('end') || lower.includes('quit')) {
+                contextMemory.addToContext('social', 'goodbye');
+                return userName ? `Goodbye ${userName}! 👋 Happy coding!` : "Goodbye! 👋 Happy coding!";
+            }
+
+            // Default response
+            contextMemory.addToContext('unknown', 'general');
+            return `I can help with that! Try asking about:<br><br>
+<strong>Basics:</strong> Variables, Loops, Functions<br>
+<strong>Data Structures:</strong> Arrays, Lists<br>
+<strong>Algorithms:</strong> Search, Sort, Recursion<br>
+<strong>Theory:</strong> Big O, Debugging<br><br>
+Or type <strong>"help"</strong> to see all my capabilities!`;
+        }
+
+        function handleFollowUp(input, lower, ctx) {
+            const lastTopic = ctx.lastTopic;
+
+            if (lower.includes('more') || lower.includes('else') || lower.includes('another') || lower.includes('also') || lower.includes('example') || lower.includes('show')) {
+                contextMemory.addToContext('follow_up', lastTopic, { type: 'expand' });
+
+                if (lastTopic === 'variables') {
+                    return `<strong>More on Variables:</strong><br><br>
+<strong>Variable Scope:</strong><br>
+• <strong>Global:</strong> Accessible everywhere (avoid when possible)<br>
+• <strong>Local:</strong> Inside function only<br>
+• <strong>Block:</strong> Inside if/for/while blocks (let/const in JS)<br><br>
+<strong>Common Pitfalls:</strong><br>
+• Using undefined variables<br>
+• Variable shadowing (same name in nested scope)<br>
+• Modifying global state unexpectedly<br><br>
+<strong>Best Practices:</strong><br>
+• Use const/let instead of var (JS)<br>
+• Initialize variables when declaring<br>
+• Keep scope as narrow as possible<br>
+• Use meaningful names (self-documenting code)`;
+                }
+
+                if (lastTopic === 'loops') {
+                    return `<strong>Advanced Loop Patterns:</strong><br><br>
+<strong>Two Pointer Technique:</strong><n<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python"># Two sum - sorted array
+def two_sum(arr, target):
+    left, right = 0, len(arr) - 1
+    while left < right:
+        current = arr[left] + arr[right]
+        if current == target:
+            return [left, right]
+        elif current < target:
+            left += 1
+        else:
+            right -= 1
+    return None</code></pre></div><br>
+<strong>Sliding Window:</strong><br>
+For substring/subarray problems - avoid O(n²) nested loops!`;
+                }
+
+                if (lastTopic === 'functions') {
+                    return `<strong>Advanced Function Concepts:</strong><br><br>
+<strong>Higher-Order Functions:</strong><br>
+Functions that take functions as arguments or return functions.<br><br>
+<strong>Closures:</strong><br>
+Functions that remember their creation scope.<br><br>
+<strong>Decorators (Python):</strong><n<div class="code-block"><div class="code-header"><span class="text-xs text-slate-400 font-mono">python</span><button onclick="copyCode(this)" class="copy-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div><pre><code class="language-python">def timer(func):
+    import time
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        print(f"Took {time.time() - start}s")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    time.sleep(1)</code></pre></div>`;
+                }
+
+                if (lastTopic === 'arrays') {
+                    return `<strong>Advanced Array Techniques:</strong><br><br>
+<strong>Prefix Sum:</strong><br>
+Precompute cumulative sums for O(1) range queries.<br><br>
+<strong>Two Pointers:</strong><br>
+From both ends or both from start for efficient traversal.<br><br>
+<strong>In-Place Operations:</strong><br>
+Modify array without extra space (reverse, remove duplicates).<br><br>
+<strong>Common Patterns:</strong><br>
+• Dutch National Flag (sort 3 colors)<br>
+• Kadane's Algorithm (max subarray sum)<br>
+• Moore's Voting Algorithm (majority element)`;
+                }
+
+                if (lastTopic === 'search') {
+                    return `<strong>Search Algorithm Variations:</strong><br><br>
+<strong>Find First/Last Occurrence:</strong><br>
+Modified binary search for duplicates.<br><br>
+<strong>Search in Rotated Sorted Array:</strong><br>
+O(log n) even when array is rotated.<br><br>
+<strong>Binary Search on Answer:</strong><br>
+When searching for optimal value (minimize/maximize).<br><br>
+<strong>Interpolation Search:</strong><br>
+O(log log n) for uniformly distributed sorted data.`;
+                }
+
+                if (lastTopic === 'sort') {
+                    return `<strong>Sorting Deep Dive:</strong><br><br>
+<strong>Stability:</strong><br>
+Stable sorts preserve order of equal elements (Merge, Insertion).<br>
+Unstable sorts don't (Quick, Heap, Selection).<br><br>
+<strong>In-Place Sorting:</strong><br>
+• O(1) extra space: Quick, Heap, Insertion, Selection, Bubble<br>
+• O(n) extra space: Merge Sort (needs temporary arrays)<br><br>
+<strong>When to use which:</strong><br>
+• Small data (n < 50): Insertion Sort<br>
+• General purpose: Quick Sort (fastest average)<br>
+• Guaranteed O(n log n): Merge or Heap<br>
+• Linked lists: Merge Sort (no random access needed)`;
+                }
+
+                if (lastTopic === 'recursion') {
+                    return `<strong>Recursion Patterns:</strong><br><br>
+<strong>1. Divide and Conquer:</strong><br>
+Break problem into smaller subproblems (Merge Sort, Binary Search).<br><br>
+<strong>2. Backtracking:</strong><br>
+Try possibilities, undo if dead end (N-Queens, Sudoku, Permutations).<br><br>
+<strong>3. Tree Recursion:</strong><br>
+Multiple recursive calls (Fibonacci - inefficient without memoization).<br><br>
+<strong>Memoization vs Tabulation:</strong><br>
+• Top-down (memoization): Recursive + cache, intuitive<br>
+• Bottom-up (tabulation): Iterative, no stack overflow risk`;
+                }
+
+                if (lastTopic === 'debug') {
+                    return `<strong>Advanced Debugging:</strong><br><br>
+<strong>Binary Search Debugging:</strong><br>
+Comment out half your code. If bug persists, it's in the other half. Repeat!<br><br>
+<strong>Git Bisect:</strong><br>
+Find which commit introduced the bug using binary search on history.<br><br>
+<strong>Logging vs Print:</strong><br>
+Use proper logging with levels (DEBUG, INFO, ERROR) for production code.<br><br>
+<strong>Debugger Commands:</strong><br>
+• breakpoint() - Set breakpoint in Python<br>
+• step over - Execute current line, move to next<br>
+• step into - Enter function call<br>
+• step out - Exit current function`;
+                }
+
+                if (lastTopic === 'bigo') {
+                    return `<strong>Big O Analysis Tips:</strong><br><br>
+<strong>How to Analyze:</strong><br>
+1. Identify the basic operation (usually in innermost loop)<br>
+2. Count how many times it runs relative to input size n<br>
+3. Drop constants and lower-order terms<br>
+4. Consider worst case unless specified otherwise<br><br>
+<strong>Space Complexity:</strong><br>
+• Input space doesn't count (only extra space)<br>
+• Recursion uses O(depth) stack space<br>
+• Creating new arrays: O(n) space<br><br>
+<strong>Amortized Analysis:</strong><br>
+Some operations are expensive but rare. Example: ArrayList doubling is O(1) amortized per insertion even though some insertions are O(n).`;
+                }
+            }
+
+            if (lower.includes('why')) {
+                contextMemory.addToContext('follow_up', lastTopic, { type: 'why' });
+
+                if (lastTopic === 'variables') {
+                    return `<strong>Why proper variable naming matters:</strong><br><br>
+Code is read 10x more than it's written! Descriptive names:<br>
+• Reduce cognitive load (easier to understand)<br>
+• Minimize bugs (clear intent)<br>
+• Make debugging faster<br>
+• Help in code reviews<br>
+• Essential for team collaboration<br><br>
+<strong>Example:</strong><br>
+❌ Bad: <code>d = 30</code> (What is d?)<br>
+✅ Good: <code>days_in_month = 30</code> (Self-documenting!)`;
+                }
+
+                if (lastTopic === 'loops') {
+                    return `<strong>Why loop optimization matters:</strong><br><br>
+In competitive programming and large-scale systems:<br>
+• O(n²) with n=10⁶ = 1 trillion operations (hours)<br>
+• O(n log n) with n=10⁶ = 20 million operations (seconds)<br><br>
+<strong>Real-world impact:</strong><br>
+• Nested loops in database queries can crash servers<br>
+• Inefficient loops drain mobile battery<br>
+• Algorithm optimization > hardware upgrades`;
+                }
+
+                if (lastTopic === 'functions') {
+                    return `<strong>Why use functions?</strong><br><br>
+<strong>DRY Principle:</strong> Don't Repeat Yourself<br>
+• Write once, use many times<br>
+• Changes only in one place<br>
+• Reduces bugs from copy-paste errors<br><br>
+<strong>Abstraction:</strong><br>
+• Hide complex implementation details<br>
+• Use descriptive function names as documentation<br>
+• Easier testing (test functions individually)<br><br>
+<strong>Modularity:</strong><br>
+• Break big problems into small, manageable pieces<br>
+• Team collaboration (different people work on different functions)`;
+                }
+
+                if (lastTopic === 'arrays') {
+                    return `<strong>Why arrays are fundamental:</strong><br><br>
+Arrays are the backbone of computer science because:<br><br>
+• <strong>Memory efficiency:</strong> Contiguous storage, no pointer overhead<br>
+• <strong>Cache friendly:</strong> Sequential access is fast (spatial locality)<br>
+• <strong>O(1) access:</strong> Direct indexing by memory offset<br>
+• <strong>Foundation:</strong> Strings, matrices, heaps, hash tables built on arrays<br><br>
+<strong>When NOT to use arrays:</strong><br>
+• Frequent insertions/deletions in middle → Use Linked Lists<br>
+• Unknown size that grows frequently → Use dynamic arrays/ArrayList<br>
+• Need key-value lookup → Use Hash Maps`;
+                }
+
+                if (lastTopic === 'search') {
+                    return `<strong>Why Binary Search is so important:</strong><br><br>
+Binary Search appears in 20%+ of interview questions!<br><br>
+<strong>Real applications:</strong><br>
+• Database indexing (B-trees use binary search principles)<br>
+• Git bisect (finding which commit broke code)<br>
+• Auto-complete/suggestion features<br>
+• Finding square roots (numerical methods)<br>
+• Machine learning (finding optimal thresholds)<br><br>
+<strong>The pattern:</strong><br>
+Whenever you see "sorted array" in a problem, think Binary Search!`;
+                }
+
+                if (lastTopic === 'sort') {
+                    return `<strong>Why sorting is crucial:</strong><br><br>
+Sorting enables other efficient operations:<br><br>
+• <strong>Binary Search:</strong> Requires sorted data (O(log n) vs O(n))<br>
+• <strong>Duplicate detection:</strong> Adjacent elements after sorting<br>
+• <strong>Two sum:</strong> Sort + two pointers = O(n log n) vs O(n²)<br>
+• <strong>Interval problems:</strong> Sort by start time first<br>
+• <strong>Greedy algorithms:</strong> Often need sorted order<br><br>
+<strong>Interview tip:</strong><br>
+If stuck on a problem, ask: "Would sorting help?" Often the answer is yes!`;
+                }
+
+                if (lastTopic === 'recursion') {
+                    return `<strong>Why learn recursion?</strong><br><br>
+Recursion is essential because:<br><br>
+• <strong>Tree problems:</strong> DFS is naturally recursive<br>
+• <strong>Divide and conquer:</strong> Merge sort, quick sort, binary search<br>
+• <strong>Backtracking:</strong> Permutations, combinations, constraint satisfaction<br>
+• <strong>Graph traversal:</strong> DFS easier to write recursively<br>
+• <strong>Dynamic programming:</strong> Often derived from recursive solutions<br><br>
+<strong>Mindset shift:</strong><br>
+Don't think about the stack! Trust that subproblems work.<br>
+Focus on: 1) Base case, 2) Recursive case, 3) Combining results`;
+                }
+
+                if (lastTopic === 'bigo') {
+                    return `<strong>Why Big O matters in the real world:</strong><br><br>
+<strong>Google scale example:</strong><br>
+Processing 1 billion items:<br>
+• O(n²) = 31 years of computation<br>
+• O(n log n) = 30 seconds of computation<br><br>
+<strong>Cost implications:</strong><br>
+• Better algorithms = fewer servers = $$$ saved<br>
+• O(n²) API endpoint can crash under load<br>
+• Mobile apps: O(n²) drains battery, O(n) doesn't<br><br>
+<strong>Interview reality:</strong><br>
+Brute force solution gets you partial credit.<br>
+Optimized solution gets you the job offer!`;
+                }
+            }
+
+            // Default follow-up
+            contextMemory.addToContext('follow_up', lastTopic, { type: 'general' });
+            return `Regarding <strong>${lastTopic}</strong>...<br><br>
+Would you like me to:<br>
+• Show another <strong>example</strong><br>
+• Explain <strong>why</strong> it works<br>
+• Compare with <strong>alternatives</strong><br>
+• Dive <strong>deeper</strong> into details<br><br>
+Or ask me something specific!`;
+        }
+
+        function pickRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('code').textContent;
+            navigator.clipboard.writeText(code);
+            btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+            btn.style.color = '#10b981';
+            setTimeout(() => {
+                btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+                btn.style.color = '';
+            }, 2000);
+        }
+
+        // Chat History Functions
+        function saveCurrentChat() {
+            if (chatHistory.length === 0) return;
+
+            const chatTitle = chatHistory[0].content.substring(0, 50) + (chatHistory[0].content.length > 50 ? '...' : '');
+            const savedChat = {
+                id: Date.now(),
+                title: chatTitle,
+                timestamp: new Date().toISOString(),
+                messages: [...chatHistory]
+            };
+
+            savedChats.unshift(savedChat);
+            if (savedChats.length > 20) savedChats = savedChats.slice(0, 20);
+
+            localStorage.setItem('kanaan_chats', JSON.stringify(savedChats));
+        }
+
+        function newChat() {
+            if (chatHistory.length > 0) {
+                saveCurrentChat();
+            }
+
+            contextMemory.reset();
+
+            chatContainer.innerHTML = `
+                <div class="flex gap-3 md:gap-4 animate-slide-in">
+                    <div class="w-9 h-9 md:w-12 md:h-12 rounded-full bot-avatar flex-shrink-0 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    </div>
+                    <div class="message-bubble bg-slate-800/80 border border-slate-700 rounded-2xl rounded-bl-sm p-3 md:p-5 shadow-xl">
+                        <h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-purple-400">New chat started! 🌟</h3>
+                        <p class="text-slate-300 text-sm md:text-base">Previous chat saved. What shall we tackle now?</p>
+                    </div>
+                </div>
+            `;
+            messageCount = 0;
+            updateMsgCount();
+            chatHistory.length = 0;
+        }
+
+        function openHistory() {
+            const modal = document.getElementById('historyModal');
+            const list = document.getElementById('historyList');
+
+            if (savedChats.length === 0) {
+                list.innerHTML = '<div class="p-8 text-center text-slate-500">No saved chats yet</div>';
+            } else {
+                list.innerHTML = savedChats.map(chat => `
+                    <div class="history-item" onclick="loadChat(${chat.id})">
+                        <div class="flex-1">
+                            <div class="text-sm font-medium text-slate-200">${escapeHtml(chat.title)}</div>
+                            <div class="text-xs text-slate-500">${new Date(chat.timestamp).toLocaleString()}</div>
+                        </div>
+                        <button onclick="deleteChat(event, ${chat.id})" class="p-2 text-slate-400 hover:text-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeHistoryModal(event) {
+            if (!event || event.target.id === 'historyModal') {
+                document.getElementById('historyModal').classList.remove('active');
+            }
+        }
+
+        function loadChat(chatId) {
+            const chat = savedChats.find(c => c.id === chatId);
+            if (!chat) return;
+
+            saveCurrentChat();
+
+            contextMemory.reset();
+
+            chatContainer.innerHTML = '';
+            chatHistory.length = 0;
+            messageCount = 0;
+
+            chat.messages.forEach(msg => {
+                if (msg.role === 'user') {
+                    addUserMessage(msg.content);
+                } else {
+                    addBotMessage(msg.content);
+                }
+                chatHistory.push(msg);
+                messageCount++;
+            });
+
+            updateMsgCount();
+            closeHistoryModal();
+        }
+
+        function deleteChat(event, chatId) {
+            event.stopPropagation();
+            savedChats = savedChats.filter(c => c.id !== chatId);
+            localStorage.setItem('kanaan_chats', JSON.stringify(savedChats));
+            openHistory();
+        }
+
+        function exportChat() {
+            if (chatHistory.length === 0) {
+                alert('No messages to export!');
+                return;
+            }
+
+            let exportText = "KANAAN AI Chat Export\n";
+            exportText += "===================\n\n";
+
+            chatHistory.forEach(msg => {
+                const time = new Date(msg.time).toLocaleString();
+                const role = msg.role === 'user' ? 'You' : 'KANAAN AI';
+                exportText += `[${time}] ${role}:\n${msg.content.replace(/<[^>]*>/g, '')}\n\n`;
+            });
+
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kanaan_chat_${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
